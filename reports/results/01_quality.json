@@ -1,0 +1,30 @@
+{
+  "annual_rows": 3428,
+  "annual_years": [
+    2019,
+    2024
+  ],
+  "monthly_rows": 42264,
+  "monthly_first": "2018-01",
+  "monthly_last": "2024-12",
+  "monthly_missing_years": [
+    2022
+  ],
+  "weather_days": 3195,
+  "weather_last": "2026-09-30",
+  "properties": 1166,
+  "big_box_latest_year": 2024,
+  "big_box_latest_count": 431,
+  "rows_kept": 2996,
+  "rows_kept_share": 0.8739789964994166,
+  "removed_by_rule": {
+    "Duplicate property-year": 37,
+    "Missing / zero floor area": 0,
+    "No energy reported": 324,
+    "Unit / scale error (\u22481,000\u00d7 off)": 22,
+    "EUI outside 5\u20131,000 kBtu/ft\u00b2": 49
+  },
+  "big_box_share_score80": 0.7806267806267806,
+  "monthly_matches_annual_share": 0.9844389844389845,
+  "d4_present": false
+}

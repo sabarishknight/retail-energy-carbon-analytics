@@ -1,0 +1,27 @@
+{
+  "d1_ll84_annual_cy2019.csv": {
+    "sha256": "edef783b35c696fc6cdca8a658654fa74c59e1ed369deceb327acaecc59b683d",
+    "bytes": 1462424
+  },
+  "d1_ll84_annual_cy2020.csv": {
+    "sha256": "704c5836f75edd29ba070c606c4ab45eebeb3bdfda70f6bc5409bd1f115f8657",
+    "bytes": 1541239
+  },
+  "d1_ll84_annual_cy2021.csv": {
+    "sha256": "8331117b68b982d1829d855473f28ef6d5a61196b43ed6f1cc1bde1dccac34f7",
+    "bytes": 1671981
+  },
+  "d1_ll84_annual_cy2022_present.csv": {
+    "sha256": "f30b0e30bf261a05d2b92819e9ccb970d6529897a31740a40458e89982b662f5",
+    "bytes": 6075752
+  },
+  "d2_ll84_monthly_retail.csv": {
+    "sha256": "289001a6531aef560d821514ea415f604128f24c00c1ba68b3ff5943c7accb4c",
+    "bytes": 6845490
+  },
+  "d3_weather_nyc_daily.csv": {
+    "sha256": "bb7b931afbbcc0e06c5a1f9daaa10b45072b1d37bc11eb9d54bb5fd61aee2bed",
+    "bytes": 80431
+  },
+  "_downloaded_on": "2026-10-01"
+}

@@ -1,0 +1,55 @@
+{
+  "ashrae_pass": 6,
+  "stores": 8,
+  "cooling_changepoint_stores": 7,
+  "median_cvrmse_pct": 7.075845193641919,
+  "weather_sensitive_share_median_pct": 13.923002723128413,
+  "cooling_slope_kwh_day_c": {
+    "Store A": 636.5031833925258,
+    "Store B": 516.6319260455725,
+    "Store C": 323.2017942337949,
+    "Store D": 182.8322194844609,
+    "Store E": 0.0,
+    "Store F": 165.482605707038,
+    "Store G": 165.06881473571926,
+    "Store H": 276.0799375798015
+  },
+  "mape_median_store": {
+    "Seasonal naive": 14.81175116830703,
+    "Change-point + weather": 11.114776800080952,
+    "LightGBM (pooled)": 17.29038368974578
+  },
+  "mape_portfolio": {
+    "Seasonal naive": 5.92824668167058,
+    "Change-point + weather": 4.384439628873915,
+    "LightGBM (pooled)": 3.5783951934692833
+  },
+  "annual_error_pct": {
+    "seasonal_naive": -0.8803231817224866,
+    "changepoint": 0.17429538810542766,
+    "lightgbm": 2.841198829525049
+  },
+  "best_method_median_store": "Change-point + weather",
+  "best_method_portfolio": "LightGBM (pooled)",
+  "mape_clean_stores": {
+    "Seasonal naive": 12.303207170386058,
+    "Change-point + weather": 9.602440896552956,
+    "LightGBM (pooled)": 11.20446231153911
+  },
+  "excluded_baseline_months": {
+    "Store A": "",
+    "Store B": "",
+    "Store C": "",
+    "Store D": "",
+    "Store E": "2023-08",
+    "Store F": "",
+    "Store G": "2023-08, 2023-09",
+    "Store H": "2024-05, 2024-06, 2024-12"
+  },
+  "forecast_2025_typical_gwh": 22.197359824754056,
+  "forecast_2025_actual_weather_gwh": 22.83339956467167,
+  "weather_effect_2025": 0.028653846445662268,
+  "cdd18_2025": 729.0999999999999,
+  "cdd18_typical": 630.8142857142856,
+  "lgb_train_stores": 475
+}

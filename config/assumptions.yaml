@@ -1,0 +1,177 @@
+# WattWise Retail — every assumed / reference value used in the analysis.
+# Anything in this file is an ASSUMPTION or an external reference factor, not a
+# measurement from the datasets. Notebooks label results that depend on it.
+# Retrieved: 2026-10-01.
+
+seed: 42
+
+units:
+  kbtu_per_kwh: 3.412142
+  kbtu_per_therm: 100.0
+  m2_per_ft2: 0.09290304
+  litres_per_gallon: 3.785411784
+  kwh_per_m2_per_kbtu_per_ft2: 3.15459     # 1 kBtu/ft² = 3.15459 kWh/m²
+  lb_per_kg: 2.20462262
+
+emission_factors:
+  us_grid_nycw_kg_per_kwh:
+    value: 0.3927          # 865.744 lb CO2e/MWh ÷ 2204.62 lb/t ÷ 1000
+    raw: "865.744 lb CO2e/MWh (total output emission rate, NYCW subregion)"
+    source: "EPA eGRID2023 Rev 2 summary tables (released 2025-06-12)"
+    url: https://www.epa.gov/egrid/summary-data
+    note: "Latest eGRID release at retrieval date. Location-based Scope 2."
+  india_grid_kg_per_kwh:
+    value: 0.710
+    source: "CEA CO2 Baseline Database for the Indian Power Sector, Version 21.0 — weighted average, FY2024-25"
+    url: https://cea.nic.in/cdm-co2-baseline-database/
+    note: "Used only for the 'same stores on the Indian grid' sensitivity."
+  natural_gas_kg_co2e_per_mmbtu:
+    value: 53.11           # 53.06 CO2 + 1.0 g CH4 × 28 + 0.10 g N2O × 265
+    raw: "53.06 kg CO2, 1.0 g CH4, 0.10 g N2O per MMBtu (HHV)"
+    source: "EPA GHG Emission Factors Hub 2025, Table 1 (stationary combustion); AR5 GWPs"
+    url: https://www.epa.gov/system/files/documents/2025-01/ghg-emission-factors-hub-2025.pdf
+  diesel_kg_co2_per_litre:
+    value: 2.68
+    source: "IPCC 2006 Guidelines default for gas/diesel oil (74,100 kg CO2/TJ)"
+    url: https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html
+    note: "Used only in the SYNTHETIC diesel-generator scenario."
+  germany_grid_kg_per_kwh:   # UBA, CO2 emission factor of the German electricity mix
+    source: "Umweltbundesamt, Climate Change 13/2025 — Entwicklung der spezifischen CO2-Emissionen des deutschen Strommix 1990-2024"
+    url: https://www.umweltbundesamt.de/sites/default/files/medien/11850/publikationen/13_2025_cc.pdf
+    by_year: {2018: 0.471, 2019: 0.411, 2020: 0.375, 2021: 0.420, 2022: 0.434, 2023: 0.380}
+
+prices:
+  electricity_usd_per_kwh:
+    value: 0.2107
+    source: "EIA Electric Power Monthly (Feb 2026), Table 5.6.B — New York, commercial, Dec 2025 YTD (= calendar 2025)"
+    url: https://www.eia.gov/electricity/monthly/archive/february2026.pdf
+    note: "Statewide average; NYC Con Edison commercial tariffs are typically higher, so cost results are conservative."
+  natural_gas_usd_per_mcf:
+    value: 11.47
+    source: "EIA Natural Gas Prices — New York price sold to commercial consumers, 2025 annual"
+    url: https://www.eia.gov/dnav/ng/hist/n3020ny3a.htm
+  natural_gas_therms_per_mcf:
+    value: 10.36           # EIA average heat content 1,036 Btu/cf
+    source: "EIA — natural gas heat content (1,036 Btu per cubic foot, 2024)"
+    url: https://www.eia.gov/tools/faqs/faq.php?id=45&t=8
+  india_diesel_usd_per_litre:
+    value: 1.05
+    source: "ASSUMPTION — approx. INR 88-90/L retail diesel (2025) at ~85 INR/USD"
+    url: https://ppac.gov.in/retail-selling-price-rsp-of-petrol-diesel-and-domestic-lpg/rsp-of-petrol-and-diesel-in-metro-cities-since-16-6-2017
+    note: "SYNTHETIC scenario only."
+  germany_electricity_eur_per_kwh:
+    value: 0.25
+    source: "ASSUMPTION — BDEW industry/commercial price indications 2023-2024 (approx. 0.20-0.30 EUR/kWh)"
+    url: https://www.bdew.de/service/daten-und-grafiken/bdew-strompreisanalyse/
+    note: "Used to put a euro value on D4 site savings only."
+
+fx:
+  usd_per_eur:
+    value: 1.08
+    source: "ECB euro reference rate, USD per EUR, 2024 annual average ≈ 1.082 (rounded)"
+    url: https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html
+    note: "Only to put reference-site (Germany) measures in the same currency as the NYC register."
+
+finance:
+  discount_rate: 0.08
+  horizon_years: 10
+
+thresholds:
+  eui_min_kbtu_ft2: 5
+  eui_max_kbtu_ft2: 1000
+  big_box_min_gfa_ft2: 100000
+  spike_ratio: 3.0
+  flatline_months: 3
+  annual_monthly_mismatch: 0.10
+  scale_error_ratio: 300        # >300× cohort median EUI ⇒ likely a kBtu/MBtu or unit error
+  anomaly_z: 2.5
+  step_change_ratio: 0.30      # sustained >30% shift vs prior 6-month median
+  ticket_priority_usd: {high: 5000, medium: 1000}
+  cusum_k_sigma: 0.5
+  cusum_h_sigma: 4.0
+  ashrae14_cvrmse_monthly: 0.15
+  ashrae14_nmbe_monthly: 0.05
+  hdd_cdd_base_c: 18.0
+  hdd_cdd_base_f: 65.0
+
+pv:
+  derate:   # expected-yield model: E = G_poa × kWp × derate / 1000
+    value: 0.85
+    source: "ASSUMPTION — typical PR target for well-run crystalline PV (IEA PVPS T13; NREL PVWatts default losses ~14%)"
+    url: https://pvwatts.nrel.gov/downloads/pvwattsv5.pdf
+  low_pr_threshold: 0.60
+
+ecm:   # capex and effect-size assumptions; savings sizes come from the analysis itself
+  hvac_scheduling:
+    note: "Closed-hour share of chiller electricity is MEASURED on the D4 reference site and transferred to the focus stores (assumption: similar plant scheduling behaviour)."
+    capex_usd: 15000
+    capex_basis: "ASSUMPTION — BMS re-programming + commissioning per store (LBNL 'Building Commissioning' median cost ~$0.30/ft² for existing buildings, applied to controls scope only)"
+    url: https://eta-publications.lbl.gov/sites/default/files/lbnl-3645e.pdf
+    capture_fraction: 0.5
+  cooling_setpoint_1c:
+    capex_usd: 2000
+    capex_basis: "ASSUMPTION — setpoint change via BMS, staff time only"
+    url: https://www.energystar.gov/buildings/resources_audience/small_biz/hvac
+  base_load_reduction:
+    note: "After-hours load above the Christmas-shutdown floor is MEASURED on D4 as a share of annual use and transferred to the focus stores (assumption)."
+    capex_usd: 25000
+    capex_basis: "ASSUMPTION — after-hours shutdown controls, plug-load timers, refrigeration night covers"
+    url: https://www.energystar.gov/buildings/save_energy_commercial_buildings/ways_save/plug_loads
+    capture_fraction: 0.3
+  led_retrofit:
+    lighting_share_of_retail_electricity: 0.33
+    lighting_share_basis: "EIA CBECS 2018 — lighting share of electricity use in mercantile (retail) buildings is roughly one third (assumption rounded)"
+    lighting_share_url: https://www.eia.gov/consumption/commercial/data/2018/
+    led_saving_fraction: 0.45
+    led_saving_basis: "ASSUMPTION — DOE: LED vs fluorescent/HID typically 40-60% lighting energy reduction"
+    led_saving_url: https://www.energy.gov/energysaver/led-lighting
+    capex_usd_per_ft2: 2.0
+    capex_basis: "ASSUMPTION — commercial LED troffer/high-bay retrofit, ~$1.5-3/ft² installed"
+    capex_url: https://www.energy.gov/eere/ssl/led-lighting-facts
+    already_led_fraction: 0.5
+    already_led_basis: "ASSUMPTION — half of large NYC retail floor area already relit with LED"
+  pv_cleaning_fix:
+    capex_eur: 8000
+    capex_basis: "ASSUMPTION — annual cleaning + inverter fault response contract for ~750 kWp"
+    url: https://www.nrel.gov/docs/fy19osti/73822.pdf
+  anomaly_correction:
+    capex_usd: 5000
+    capex_basis: "ASSUMPTION — investigation + fix per flagged store (technician days)"
+    url: https://www.energystar.gov/buildings/tools-and-resources/energy-treasure-hunt-guide-simple-steps-finding-energy-savings
+    capture_fraction: 0.5
+  bottom_quartile_to_median:
+    capex_usd_per_kwh_saved: 1.5
+    capex_basis: "ASSUMPTION — deep retrofit cost per first-year kWh saved (ACEEE commercial programme cost-of-saved-energy range)"
+    url: https://www.aceee.org/research-report/u1805
+    capture_fraction: 0.5
+  rooftop_solar:
+    usable_roof_fraction_of_footprint: 0.40
+    roof_basis: "ASSUMPTION — 40% of single-storey footprint usable after HVAC, setbacks, fire paths"
+    kwp_per_m2: 0.18
+    kwp_basis: "ASSUMPTION — ~180 Wp/m² ground-coverage for flat-roof racking"
+    specific_yield_kwh_per_kwp: 1150
+    yield_basis: "NREL PVWatts, New York City, fixed tilt — ~1,100-1,250 kWh/kWp/yr (assumption rounded)"
+    yield_url: https://pvwatts.nrel.gov/
+    capex_usd_per_wp: 2.5
+    capex_basis: "ASSUMPTION — LBNL Tracking the Sun 2024, non-residential median installed price"
+    capex_url: https://emp.lbl.gov/tracking-the-sun
+    storeys_assumed: 2
+
+india_diesel_scenario:   # SYNTHETIC — illustration only
+  label: SYNTHETIC
+  store_load_kw_average: 400
+  outage_hours_per_year: 300
+  dg_litres_per_kwh: 0.30
+  dg_basis: "ASSUMPTION — mid-size diesel genset at partial load ~3.3 kWh/L"
+  dg_url: https://www.cat.com/en_US/products/new/power-systems/electric-power/diesel-generator-sets.html
+  solar_kwp: 500
+  solar_specific_yield_kwh_per_kwp: 1500
+  battery_kwh: 800
+  solar_capex_usd_per_wp: 0.55
+  battery_capex_usd_per_kwh: 250
+  capex_basis: "ASSUMPTION — India C&I rooftop solar ~INR 40-50/Wp; LFP storage ~USD 200-300/kWh (2025)"
+  capex_url: https://mercomindia.com/
+  outage_energy_covered_by_solar_battery: 0.6
+  coverage_basis: "ASSUMPTION — share of outage-hour energy a 500 kWp + 800 kWh system can carry (daytime outages fully, evening partly)"
+  grid_tariff_usd_per_kwh: 0.11
+  tariff_basis: "ASSUMPTION — Indian commercial tariff ~INR 9-10/kWh"
